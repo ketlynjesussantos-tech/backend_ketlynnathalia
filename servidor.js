@@ -64,7 +64,9 @@ app.get('/treinos', (req, res) => {
 app.get('/treinos/:id', (req, res) => {
     const id = Number(req.params.id);
 
-    const treino = treinos.find((t) => t.id === id);
+    const treino = db
+        .prepare('SELECT * FROM treinos WHERE id = ?')
+        .get(id);
 
     if (treino === undefined) {
         return res.status(404).json({
@@ -74,6 +76,7 @@ app.get('/treinos/:id', (req, res) => {
 
     res.status(200).json(treino);
 });
+
 
 
 
