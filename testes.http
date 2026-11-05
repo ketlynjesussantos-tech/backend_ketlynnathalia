@@ -9,6 +9,64 @@
 @url = http://localhost:3000
 
 
+### 0 - Login como diego                 -> espera 200 e Set-Cookie
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "usuario": "diego",
+    "senha": "1234"
+}
+
+
+### 0.1 - Perfil de diego                 -> espera 200
+GET {{url}}/perfil
+
+
+### 0.2 - Login como aluno                -> espera 200, substitui a sessao
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "usuario": "aluno",
+    "senha": "senha"
+}
+
+
+### 0.3 - Perfil de aluno                 -> espera 200 com usuario aluno
+GET {{url}}/perfil
+
+
+### 0.4 - Login com senha errada          -> espera 401
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "usuario": "aluno",
+    "senha": "errada"
+}
+
+
+### 0.5 - Login com usuario inexistente   -> espera 401 com a mesma mensagem
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "usuario": "inexistente",
+    "senha": "1234"
+}
+
+
+### 0.6 - Voltar para diego               -> espera 200
+POST {{url}}/login
+Content-Type: application/json
+
+{
+    "usuario": "diego",
+    "senha": "1234"
+}
+
+
 ### 1 - Listar todos os treinos            -> espera 200 e um array
 GET {{url}}/treinos
 
@@ -90,3 +148,21 @@ DELETE {{url}}/treinos/99999
 
 ### 12 - Listar de novo pra conferir       -> espera 200
 GET {{url}}/treinos
+
+
+### 13 - Logout                            -> espera 204
+POST {{url}}/logout
+
+
+### 14 - Perfil depois do logout           -> espera 401
+GET {{url}}/perfil
+
+
+### 15 - Criar treino sem login            -> espera 401
+POST {{url}}/treinos
+Content-Type: application/json
+
+{
+    "nome": "Treino sem login",
+    "duracao": 30
+}
